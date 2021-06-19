@@ -17,7 +17,7 @@ clock = pygame.time.Clock()
 
 pygame.mixer.init()
 pygame.mixer.music.load("../assets/music/game_music1.ogg")
-
+pygame.mixer.music.play()
 
 class Snake:
     def __init__(self):
@@ -176,13 +176,15 @@ class FRUIT:
 
 class Main:
     def __init__(self):
-        a = random.randint(10, 99)
-        b = random.randint(10, 99)
+        self.get_random_num()
         self.snake = Snake()
-        self.a = a
-        self.b = b
-        self.fruit = FRUIT(a, b)
+        self.fruit = FRUIT(self.a, self.b)
         self.randomize()
+
+
+    def get_random_num(self):
+        self.a = random.randint(0,99)
+        self.b = random.randint(0,99)
 
     def randomize(self):
         self.random_prod = self.get_random_product()
@@ -213,8 +215,10 @@ class Main:
                 self.randomize()
 
     def check_fail(self):
-        if (self.snake.body[0].x > screen.get_width() - 50) or (self.snake.body[0].y > screen.get_height() - 50):
+        if not (not (self.snake.head_rect.x > screen.get_width() - 50) and not (
+                self.snake.head_rect.y > screen.get_height() - 50) and not (self.snake.head_rect.x < 0)) or (self.snake.head_rect.y < 0):
             self.game_over()
+            self.randomize()
         for block in self.snake.body[1:]:
             if block == self.snake.body[0]:
                 self.game_over()
@@ -255,9 +259,7 @@ class Main:
         self.rock2 = pygame.image.load("../assets/images/rock1.png")
         self.wall1 = pygame.image.load("../assets/images/wall2.jpg")
         self.bg = pygame.image.load("../assets/images/grass.png")
-        screen.blit(self.bg, (0, 0))
-
-        # self.draw_grass()
+        screen.blit(self.bg,(0,0))
         screen.blit(self.bg, (1600 - 1024, 0))
         # screen.blit(self.rock1, (screen.get_width() / 4 - 200, screen.get_height() / 2 - 120))
         # screen.blit(self.rock1, (3 * screen.get_width() / 4 - 160, screen.get_height() / 2 - 120))
@@ -274,12 +276,12 @@ class Main:
 """
     TODO: 
         BACKGROUND - done 
-        MAKE GRIDS ON BACKGROUND 
         MAKE SNAKE - done
-        Add graphics to snake   
+        Add graphics to snake - done   
         MAKE FRUIT (MATHS EQUATION) - done 
-        Add fruit spawn points 
-        MAKE TOTAL SUM TO BE ACHIEVED
+        Add more fruit spawn points 
+        add score
+        check ranomize 
         COMPILE EVERYTHING
 """
 
