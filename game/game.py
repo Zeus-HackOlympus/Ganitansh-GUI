@@ -119,12 +119,13 @@ class FRUIT:
         self.b = b
         # TODO: ADD REMAINING SPAWN POINTS
         self.spawn =  [
-            (50, 75),  (400, 75), (1000, 75), (1500, 75),
-            (50, 215), (400, 215), (1000, 215), (1200, 215), (1400, 215), (1500, 215),
-            (50, 355), (1000, 355),  (1400, 355), (1500, 355),
-            (50, 455),  (1000, 455), (1500, 455)
+            Vector2(50, 75),  Vector2(400, 75), Vector2(1000, 75), Vector2(1500, 75),
+            Vector2(50, 215), Vector2(400, 215), Vector2(1000, 215), Vector2(1200, 215), Vector2(1400, 215), Vector2(1500, 215),
+            Vector2(50, 355), Vector2(1000, 355),  Vector2(1400, 355), Vector2(1500, 355),
+            Vector2(50, 455),  Vector2(1000, 455), Vector2(1500, 455)
         ]
-        self.pos = []
+        self.pos_of_random = []
+
     def update_coordinates(self):
         pos = random.randint(0,len(self.spawn)-1)
         a = self.spawn[pos]
@@ -132,9 +133,9 @@ class FRUIT:
         return a
 
     def draw_cicle(self,pos:tuple):
-        self.pos.append(pos)
+        self.pos_of_ans = pos
         circle = pygame.draw.circle(screen, Color("red"), pos, 40)
-        font = pygame.font.Font('../assets/Fonts/Comic_Neue/ComicNeue-Bold.ttf', 45)
+        font = pygame.font.Font('../assets/Fonts/Comic_Neue/ComicNeue-Bold.ttf', 40)
         font = font.render(str(self.a * self.b), True, Color("gold"))
         screen.blit(font, font.get_rect(center=circle.center))
     def update_coordinates_random(self):
@@ -148,19 +149,23 @@ class FRUIT:
     def draw_random(self,pos,random):
         # pos
         for index,i in enumerate(pos) :
-            self.pos.append(pos)
+            self.pos_of_random.append(i)
             circle = pygame.draw.circle(screen, Color("red"), i, 40)
-            font = pygame.font.Font('../assets/Fonts/Comic_Neue/ComicNeue-Bold.ttf', 45)
+            font = pygame.font.Font('../assets/Fonts/Comic_Neue/ComicNeue-Bold.ttf', 40)
             font = font.render(str(random[index]* random[index+1]), True, Color("gold"))
             screen.blit(font, font.get_rect(center=circle.center))
 
 
 class Main:
-    def __init__(self,a,b):
+    def __init__(self):
+        a = random.randint(10, 99)
+        b = random.randint(10, 99)
         self.snake = Snake()
         self.a = a
         self.b = b
         self.fruit = FRUIT(a,b)
+        self.randomize()
+    def randomize(self):
         self.random_prod = self.get_random_product()
         self.co_of_random = self.fruit.update_coordinates_random()
         self.co_of_ans = self.fruit.update_coordinates()
@@ -171,22 +176,24 @@ class Main:
         return self.b
 
     def check_collision(self):
-        for i in self.fruit.pos:
-            if i == self.snake.body[0]:
-                self.fruit.randomize()
-                self.snake.add_block()
-                self.snake.play_crunch_sound()
+        print(self.fruit.pos_of_ans)
+        if self.fruit.pos_of_ans == self.snake.body[0]:
+            print("COLLISION COLLISION COLLISION COLLISION COLLISION COLLISION COLLISION COLLISION")
+            self.randomize()
+            self.snake.add_block()
+            self.snake.play_crunch_sound()
 
             for block in self.snake.body[1:]:
-                if block == i:
-                    self.fruit.randomize()
+                if block == self.snake.body[0]:
+                    self.randomize()
     def check_fail(self):
-        if not 0  <= self.snake.body[0].x < cell_number or 0<=self.snake.body[0].y < cell_number:
+        if (self.snake.body[0].x > screen.get_width()-50) or (self.snake.body[0].y >screen.get_height()-50 ):
             self.game_over()
         for block in self.snake.body[1:]:
             if block == self.snake.body[0] :
                 self.game_over()
     def game_over(self):
+        print("game over")
         self.snake.reset()
 
     def draw_score(self):
@@ -196,6 +203,11 @@ class Main:
         score_y = int(cell_size*cell_number - cell_number - 40)
         score_rect = score_surface.get_rect(center = (score_x,score_y))
         screen.blit(screen,score_rect)
+
+    def draw_equation(self):
+        font = pygame.font.Font("../assets/Fonts/Comic_Neue/ComicNeue-Bold.ttf",40)
+        font = font.render(str(self.a) +" x " + str(self.b),True,Color("White"),Color("Black"))
+        screen.blit(font,(1600-200,900-50))
 
     def get_update(self):
         self.snake.move_snake()
@@ -220,12 +232,13 @@ class Main:
 
         # self.draw_grass()
         screen.blit(self.bg, (1600 - 1024, 0))
-        screen.blit(self.rock1, (screen.get_width() / 4 - 200, screen.get_height() / 2 - 120))
-        screen.blit(self.rock1, (3 * screen.get_width() / 4 - 160, screen.get_height() / 2 - 120))
-        screen.blit(self.wall1, (screen.get_width() / 2 - 280, 0))
-        screen.blit(self.wall1, (screen.get_width() / 2 - 280, screen.get_height() - 200))
+        # screen.blit(self.rock1, (screen.get_width() / 4 - 200, screen.get_height() / 2 - 120))
+        # screen.blit(self.rock1, (3 * screen.get_width() / 4 - 160, screen.get_height() / 2 - 120))
+        # screen.blit(self.wall1, (screen.get_width() / 2 - 280, 0))
+        # screen.blit(self.wall1, (screen.get_width() / 2 - 280, screen.get_height() - 200))
         self.draw_score()
         self.snake.draw_snake()
+        self.draw_equation()
         self.fruit.draw_cicle(self.co_of_ans)
         self.fruit.draw_random(self.co_of_random,self.random_prod)
         # temp - just for testing and getting spawn points
@@ -246,16 +259,14 @@ class Main:
 
 
 # pygame.mixer.music.play()
-a = random.randint(10,99)
-b = random.randint(10,99)
-main = Main(a,b)
+
+main = Main()
 game_font = pygame.font.Font('../assets/Fonts/Comic_Neue/ComicNeue-Bold.ttf',24)
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE,200)
 
 while running:
     for event in pygame.event.get():
-        print(event)
         # if snake touches ball update pos_of_center and
         if event.type == pygame.QUIT : 
             running = False
