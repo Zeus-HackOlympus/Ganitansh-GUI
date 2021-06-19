@@ -107,7 +107,7 @@ class Snake:
 
     def move_snake(self):
 
-        if self.add_block():
+        if self.new_block:
             body = self.body[:]
             body.insert(0, body[0] + self.direction)
             self.body = body[:]
@@ -200,14 +200,17 @@ class Main:
         print(self.fruit.pos_of_ans)
         rect_target = pygame.Rect(self.co_of_ans[0]-25, self.co_of_ans[1]-25, 50, 50)
         if self.snake.head_rect.colliderect(rect_target):
-            print("COLLISION COLLISION COLLISION COLLISION COLLISION COLLISION COLLISION COLLISION")
+            print("COLLISION")
             self.randomize()
             self.snake.add_block()
             self.snake.play_crunch_sound()
-
-            for block in self.snake.body[1:]:
-                if block == self.snake.body[0]:
-                    self.randomize()
+        for block in self.co_of_random:
+            rect_target1 = pygame.Rect(block[0]-25,block[1]-25,50,50)
+            if self.snake.head_rect.colliderect(rect_target1):
+                self.game_over()
+        for block in self.snake.body[1:]:
+            if block == self.snake.body[0]:
+                self.randomize()
 
     def check_fail(self):
         if (self.snake.body[0].x > screen.get_width() - 50) or (self.snake.body[0].y > screen.get_height() - 50):
