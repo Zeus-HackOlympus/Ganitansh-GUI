@@ -142,55 +142,62 @@ class FRUIT:
             Vector2(50, 455), Vector2(1000, 455), Vector2(1500, 455)
         ]
         self.pos_of_random = []
+        self.arr_of_spawn_points = []
+    # def update_coordinates(self):
+    #     pos = random.randint(0, len(self.spawn) - 1)
+    #     a = self.spawn[pos]
+    #     self.spawn.remove(self.spawn[pos])
+    #     return a
 
-    def update_coordinates(self):
-        pos = random.randint(0, len(self.spawn) - 1)
-        a = self.spawn[pos]
-        self.spawn.remove(self.spawn[pos])
-        return a
-
-    def draw_cicle(self, pos: tuple):
-        self.pos_of_ans = pos
+    def draw_cicle(self, pos,product):
         circle = pygame.draw.circle(screen, Color("red"), pos, 40)
         font = pygame.font.Font('../assets/Fonts/Comic_Neue/ComicNeue-Bold.ttf', 40)
-        font = font.render(str(self.a * self.b), True, Color("gold"))
+        font = font.render(str(product), True, Color("gold"))
         screen.blit(font, font.get_rect(center=circle.center))
 
-    def update_coordinates_random(self):
-        arr = []
-        for i in range(8):
-            a = self.spawn[random.randint(0, len(self.spawn) - 1)]
-            arr.append(a)
-        return arr
+    # def update_coordinates_random(self):
+    #     arr = []
+    #     for i in range(8):
+    #         a = self.spawn[random.randint(0, len(self.spawn) - 1)]
+    #         arr.append(a)
+    #     return arr
 
-    def draw_random(self, pos, random):
-        # pos
-        for index, i in enumerate(pos):
-            self.pos_of_random.append(i)
-            circle = pygame.draw.circle(screen, Color("red"), i, 40)
-            font = pygame.font.Font('../assets/Fonts/Comic_Neue/ComicNeue-Bold.ttf', 40)
-            font = font.render(str(random[index] * random[index + 1]), True, Color("gold"))
-            screen.blit(font, font.get_rect(center=circle.center))
-            print(self.spawn)
-
-
+    # def draw_random(self, pos, random):
+    #     # pos
+    #     for index, i in enumerate(pos):
+    #         self.pos_of_random.append(i)
+    #         circle = pygame.draw.circle(screen, Color("red"), i, 40)
+    #         font = pygame.font.Font('../assets/Fonts/Comic_Neue/ComicNeue-Bold.ttf', 40)
+    #         font = font.render(str(random[index] * random[index + 1]), True, Color("gold"))
+    #         screen.blit(font, font.get_rect(center=circle.center))
+    #         print(self.spawn)
+    def spawn_points(self):
+        x = 0
+        while x < 11 :
+            random_x = random.randint(0,screen.get_width()-1)
+            random_y = random.randint(0,screen.get_height()-1)
+            if Vector2(random_x,random_y) not in self.arr_of_spawn_points :
+                self.arr_of_spawn_points.append(Vector2(random_x,random_y))
+                x+=1
+        return self.arr_of_spawn_points
 class Main:
     def __init__(self):
         self.get_random_num()
         self.snake = Snake()
         self.fruit = FRUIT(self.a, self.b)
-        self.randomize()
+       # self.randomize()
 
 
     def get_random_num(self):
-        self.a = random.randint(0,99)
-        self.b = random.randint(0,99)
+        self.a = random.randint(5,99)
+        self.b = random.randint(5,99)
 
-    def randomize(self):
-        self.random_prod = self.get_random_product()
-        self.co_of_random = self.fruit.update_coordinates_random()
-        self.co_of_ans = self.fruit.update_coordinates()
-        self.co_of_random = self.fruit.update_coordinates_random()
+    # def randomize(self):
+    #     self.get_random_num()
+    #     self.random_prod = self.get_random_product()
+    #     self.co_of_random = self.fruit.update_coordinates_random()
+    #     self.co_of_ans = self.fruit.update_coordinates()
+    #     self.co_of_random = self.fruit.update_coordinates_random()
 
     def get_a(self):
         return self.a
@@ -207,6 +214,7 @@ class Main:
             self.snake.add_block()
             self.snake.play_crunch_sound()
         for block in self.co_of_random:
+            print("bad collision")
             rect_target1 = pygame.Rect(block[0]-25,block[1]-25,50,50)
             if self.snake.head_rect.colliderect(rect_target1):
                 self.game_over()
@@ -247,7 +255,7 @@ class Main:
 
     def get_random_product(self):
         arr = []
-        for i in range(8):
+        for i in range(10):
             x = random.randint(5, self.a)
             y = random.randint(5, self.b)
             arr.append(x)
@@ -268,8 +276,16 @@ class Main:
         self.draw_score()
         self.snake.draw_snake()
         self.draw_equation()
-        self.fruit.draw_cicle(self.co_of_ans)
-        self.fruit.draw_random(self.co_of_random, self.random_prod)
+
+        arr = self.fruit.spawn_points()
+        for i in arr :
+            if i == 0 :
+                self.fruit.draw_cicle(i,self.a * self.b)
+            else :
+                a = random.randint(0,99)
+                b = random.randint(0,99)
+                self.fruit.draw_cicle(i,)
+        # self.fruit.draw_random(self.co_of_random, self.random_prod)
         # temp - just for testing and getting spawn points
 
 

@@ -4,7 +4,7 @@
 import PySimpleGUI as gui 
 from sys import platform as PLATFORM
 import vlc
-import winsound
+#import winsound
 gui.theme("black")
 
 score = 0
@@ -14,18 +14,13 @@ def basic_level_window(ques:str):
     global score
     layout = [
                 [gui.T("\t\t\t\t\t\tBasic Level Questions ",**args,justification = "c"),gui.T("Score : {}".format(score),size=(50,2),font=("SanFrancisco",14,"bold"),justification="right",key="score")],
-                [gui.Image('./assets/Explanation video.png',size=(500,500),key="vid"),gui.T("\t\t",size=(40,2)),gui.T(ques,size=(50,2),font=("SanFrancisco",18,"bold"),key="ques")],
+                [gui.Image('./assets/images/Explanation_video.png',size=(500,500),key="vid"),gui.T("\t\t",size=(40,2)),gui.T(ques,size=(50,2),font=("SanFrancisco",18,"bold"),key="ques")],
                 [gui.B("Play",font=("SanFrancisco",12,"bold")),gui.B("Pause",font=("SanFrancisco",12,"bold")),gui.Input("Enter Answer here: ",key="ans",font=("SanFrancisco",12,"bold")),gui.Button("Enter",font=("SanFrancisco",12,"bold"))],
                 [gui.T("",font=("SanFrancisco",8),text_color="red",key="wrong",justification="c",size=(25,1))]
             ]
     window = gui.Window("Ganitansh-GUI",layout,element_justification='center', finalize=True, resizable=True,size=(1700,1700))
     return window
 
-
-
-
-questions = ["What is 79 multiplied by 45 ? ","What is 88 multiplied by 97 ?","what is 18 multiplied by 48 ? ","What is 73 multiplied by 78"]
-answers = ["3555","8536","864","5694"]
 
 index = 0 
 
@@ -38,15 +33,20 @@ media_list = inst.media_list_new([])
 list_player.set_media_list(media_list)
 player = list_player.get_media_player()
 
+
 if  PLATFORM.startswith('linux'):
 	player.set_xwindow(window['vid'].Widget.winfo_id())
 else:
 	player.set_hwnd(window['vid'].Widget.winfo_id())
 
 n = 1000
-media_list.add_media("./assets/dd/dd.mp4")
 
-list_player.set_media_list(media_list)
+videos = { 'add':'./assets/videos/add.mp4',
+          'dd':'./assets/videos/dd.mp4', 
+          'div':'./assets/videos/div.mp4',  
+          'elev':'./assets/videos/elev.mp4',  
+          'mutli':'./assets/videos/multi.mp4',  
+          'sqr5':'./assets/videos/sqr5.mp4'}
 
 while True :
 	event, values = window.read(timeout=n)       # run with a timeout so that current location can be updated

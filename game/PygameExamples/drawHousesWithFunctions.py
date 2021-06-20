@@ -45,7 +45,7 @@ green = (0, 255, 0)
 white = (255, 255, 255)
 blue = (0, 0, 255)
 
-# main loop
+# MAIN loop
 
 while True: # loop forever (or at least until someone generates a QUIT event)
 
