@@ -107,7 +107,8 @@ class Module_template:
                 "of {} and {} "
                 ]
             self.ques = random.choice(ques_format_list).format(a, b)
-            self.ans = a / b
+            self.ans = a + b
+
         elif self.mode == "div":
             # a should always be bigger
             a, b = self.get_two_random_number(2, 99)
@@ -128,7 +129,7 @@ class Module_template:
             self.ans = a / b
         elif self.mode == "elev":
             # a should always be bigger
-            a, b = self.get_two_random_number(2, 99)
+            a, b = 11 , random.randint(5,99)
             while a < b:
                 a, b = self.get_two_random_number(2, 99)
 
@@ -142,8 +143,8 @@ class Module_template:
                 "Shree Aryabhatta wants your help. He forgot how to take product of two numbers. What is the product "
                 "of {} and {} "
                 ]
-            self.ques = random.choice(ques_format_list).format(a, b)
-            self.ans = a / b
+            self.ques = random.choice(ques_format_list).format(a,b)
+            self.ans = a * b
             # elif self.mode == "add" :
         elif self.mode == "multi":
             # a should always be bigger
@@ -162,7 +163,7 @@ class Module_template:
                 "of {} and {} "
             ]
             self.ques = random.choice(ques_format_list).format(a, b)
-            self.ans = a / b
+            self.ans = a * b
             # elif self.mode == "add" :
         elif self.mode == "sqr5":
             # a should always be bigger
@@ -181,7 +182,7 @@ class Module_template:
                 "of {} and {} "
             ]
             self.ques = random.choice(ques_format_list).format(a, b)
-            self.ans = a / b
+            self.ans = a**5
             # elif self.mode == "add" :
 
     def generate_window(self):
@@ -330,10 +331,13 @@ while True:
         window = MainMenu_window()
     elif event == "Enter" :
         if isinstance(module,Module_template):
-            if module.ans == values['ans']:
+            if str(module.ans) == values['ans']:
+                print(module.ans)
                 module.window['wrong'].update("Correct answer",text_color="green")
+                score+=1
             else:
                 module.window['wrong'].update("Incorrect answer",text_color="red")
+                print(module.ans)
     elif event == "Play" :
         if isinstance(module,Module_template):
             if module.mode == "add" : vlc_setup(Videos['dd'])
