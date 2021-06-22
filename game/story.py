@@ -1,3 +1,5 @@
+import time
+
 import PySimpleGUI as gui
 import pygame
 import pyttsx3
@@ -228,7 +230,37 @@ fun fact. Use the button to read it
         ]
         window = gui.Window("test", layout, resizable=True, finalize=True)
         return window
-
+    def eleventh_window(self):
+        layout = [
+            [gui.Image("../assets/story/Images/caverne.png")],
+            [gui.T("""
+You find yourself in a cavern, the cavern reeks of death, towards the north you see nothing 
+but darkness even with the brightest object, the lantern, in your hands. You bend towards it
+in front of you and realise that in front of you lies the end of path, a pit so deep that it
+has no end. You shrug at the sight and look behind yourself.
+""")],
+            [gui.I("Enter commands here: ",key="command"),gui.OK()],
+            [gui.B("Inventory"),gui.B("Fun Fact",key="fact")],
+            [gui.T("",**self.reponse_args)]
+        ]
+        window = gui.Window("test",layout,resizable=True,finalize=True)
+        return window
+    def twelth_window(self):
+        layout = [
+            [gui.Image("../assets/story/Images/caverne.png")],
+            [gui.T("""
+You see the stairs leading back to the room where the mughal soldier had impaled you.
+Towards the east you find a mighty wall with spider-webs blocking your path. You deci-
+de to move away from the wall after seeing the vicious spiders. Towards west you see
+a long dark path, The path bellows, inviting you into the darkness.
+What do you do ? 
+""")],
+            [gui.I("Enter commands here: ", key="command"), gui.OK()],
+            [gui.B("Inventory"), gui.B("Fun Fact", key="fact")],
+            [gui.T("", **self.reponse_args)]
+        ]
+        window = gui.Window("test", layout, resizable=True, finalize=True)
+        return window
 
 class eventLoops:
     def __init__(self):
@@ -449,6 +481,8 @@ which has something written on it. It reads""")
                     self.inventory.append("slice of bread")
             elif event == "OK" and str(values['command']).replace(' ','').lower() == "pickcarpet" :
                 window['response'].update("YOU DISCOVERED A HIDDEN TRAP DOOR UNDER THE CARPET")
+                self.resume = True
+                break
             elif event == "OK" and str(values['command']).replace(' ','').lower() in (west,north,east):
                 print("You can't go that way.")
             elif event == "OK" and str(values['command']).replace(' ','').lower() in south :
@@ -462,13 +496,116 @@ You see 3 arrows coming towards you and hear a
 whooshing sound.Your entire life passes by your 
 eyes in a flash as you fall to the ground and die
 """
+                        self.resume = False
                         gui.popup_ok(t)
                         pygame.mixer.music.play()
-            else :
-                window['response'].update("Incorrect response",text_color="red")
+        window.close()
+    def scene_11_trapdoor(self):
+        window = self.scene2.ninth_window()
+        while True :
+            event, values = window.read()
+            if event in (gui.WIN_CLOSED,gui.WIN_CLOSE_ATTEMPTED_EVENT,"Exit"):
+                self.resume = False
+                break
+            elif event == "Inventory" :
+                gui.popup_ok(inventory)
+            elif event == "fact" :
+                gui.popup_ok(self.fact)
+            elif event == "OK":
+                self.resume = True
+                break
+        window.close()
+    def scene_12_trapdoor_code(self):
+        window = self.scene2.tenth_window()
+        while True:
+            event, values = window.read()
+            if event in (gui.WIN_CLOSED,gui.WIN_CLOSE_ATTEMPTED_EVENT,"Exit"):
+                self.resume = False
+                break
+            elif event == "Inventory" :
+                gui.popup_ok(inventory)
+            elif event == "fact" :
+                gui.popup_ok(self.fact)
+            elif event == "OK" and str(values['command']).replace(' ','').lower() == "10" :
+                window['response'].update("Correct answer",text_color="green")
+                time.sleep(0.5)
+                window['response'].update("YOU UNLOCKED ANOTHER FUN FACT")
+                self.resume = True
+                self.fact = """
+            Famous Mathematicians of Ancient India
+Name- Aryabhatta
+Born- 476 CE
+Place of birth - Patna,Bihar
+Books-  Aryabhatiya,  Arya-siddhanta
+Notable Contributions to maths-
+1) Gave place value system and zero.
+2) Described area of triangle.
+3) Calculated approximate value of Pi. 
+4) Derived important results on sum of series and sequences. 
+"""
+            elif event == "OK" and str(values['command']).replace(' ','').lower() != "10" :
+                window['response'].update("The mughals are approaching DO FAST ")
+                if event == "OK" and str(values['command']).replace(' ','').lower() == "10":
+                    self.fact = """
+                    Famous Mathematicians of Ancient India
+Name- Aryabhatta
+Born- 476 CE
+Place of birth - Patna,Bihar
+Books-  Aryabhatiya,  Arya-siddhanta
+Notable Contributions to maths-
+1) Gave place value system and zero.
+2) Described area of triangle.
+3) Calculated approximate value of Pi. 
+4) Derived important results on sum of series and sequences. 
+"""
+                    window['response'].update("You unlocked another FUN FACT")
+                    break
+                else :
+                    pygame.mixer.music.load("../assets/story/music/death.ogg")
+                    gui.popup_ok("""You struggle with finding the correct answer but its already been too late.
+The Mughals have broken down the door and the last thing you see is a sword coming straight for your chest before 
+you die instantly. """)
+                    pygame.mixer.music.play()
+                    self.resume = False
+    def scene_13_inside_trapdoor(self):
+        window = self.scene2.eleventh_window()
+        while True :
+            event, values = window.read()
+            if event in (gui.WIN_CLOSED,gui.WIN_CLOSE_ATTEMPTED_EVENT,"Exit"):
+                self.resume = False
+                break
+            elif event == "OK" :
+                self.resume = True
+                break
+        window.close()
+    def scene_13b_inside_trapdoor_contd(self):
+        window = self.scene2.twelth_window()
+        pygame.mixer.music.load("../assets/story/music/death.ogg")
+        while True:
+            event, values = window.read()
+            if event in (gui.WIN_CLOSED, gui.WIN_CLOSE_ATTEMPTED_EVENT, "Exit"):
+                self.resume = False
+                break
+            elif event == "OK":
+                self.resume = True
+                break
+            elif event == "OK" and str(values['command']).replace(' ','').lower() in north :
+                gui.popup_ok("You fell into a bottomless pit and died")
+                pygame.mixer.music.play()
+            elif event == "OK" and str(values['command']).replace(' ','').lower() in west :
+                break
+#                 window['text'].update("""
+# As you go west, silent darkness instills upon you. You feel the presence
+# of someone or something coming to attack you. However, you get distracted
+# by the shimmering light at the end of the cave which seems to be coming from
+# the forest. But in that moment of distraction you feel the rustling of leaves
+# and the hissing of a creature. You turn around to be petrified at the sight
+# of an enormous snake.
+#
+# what do you do ?
+# """)
 
-
-
+        window.close()
 
 
 
@@ -513,13 +650,29 @@ def ninth_scene():
     if event.resume: tenth_scene()
 
 def tenth_scene():
-     event.scene_10_contents_in_box()
-     if event.resume: eleventh_scene()
+    event.scene_10_contents_in_box()
+    if event.resume: eleventh_scene()
 
 def eleventh_scene():
     event.scene_11_filling_inventory()
-    # if event.resume: twelth_scene()
+    if event.resume: twelth_scene()
 
+def twelth_scene():
+    event.scene_12_trapdoor_code()
+    if event.resume : thirteenth_scene()
+
+def thirteenth_scene():
+    event.scene_13_inside_trapdoor()
+    if event.resume : fourteenth_scene()
+
+def fourteenth_scene():
+    event.scene_13b_inside_trapdoor_contd()
+    #if event : fifteenth_scene()
+
+
+
+def main():
+    first_scene()
 
 if __name__ == '__main__':
-    first_scene()
+    main()

@@ -3,7 +3,9 @@ import random
 import PySimpleGUI as gui
 import vlc
 from sys import platform as PLATFORM
-
+import  story
+import  snake
+import  TicTacToe
 
 #   _____ _
 #  /__   \ |__   ___ _ __ ___   ___
@@ -85,7 +87,6 @@ class Module_template:
             ques_format_list = ["There are {} toy shops in the market, each shop has {} balls. How many balls in total are present in the market ?",
                 "What is the product of {} and {}",
                 "Sir Newton sits under the tree every evening. Everytime atleast {} falls on his head. How many apples fall on his head if he sits for {} days",
-                "Shree Aryabhatta wants your help. He forgot how to take product of two numbers. What is the product of {} and {} "
                 ]
             self.ques = ques_format_list[random.randint(0,len(ques_format_list))]
             print(self.ques)
@@ -97,17 +98,14 @@ class Module_template:
                 a, b = self.get_two_random_number(2, 99)
 
             ques_format_list = [
-                "In the First battle of Panipat, Babur used a war tactic called as \"Tulughma\", Tulughma meant "
-                "dividing the whole army into various units, viz. the Left, the Right and the Centre. Babur has a "
-                "total of {} thousand men how many men does he need in each position according to tulughma",
-                "What is the product of {} and {}",
-                "Sir Newton sits under the tree every evening. Everytime atleast {} falls on his head. How many "
-                "apples fall on his head if he sits for {} days",
-                "Shree Aryabhatta wants your help. He forgot how to take product of two numbers. What is the product "
-                "of {} and {} "
+                "add  {} and {}",
+                "subtract {} and b"
                 ]
             self.ques = random.choice(ques_format_list).format(a, b)
-            self.ans = a + b
+            if "add" in self.ques :
+                self.ans = a + b
+            elif "subtract" in self.ques :
+                self.ans = a - b
 
         elif self.mode == "div":
             # a should always be bigger
@@ -119,11 +117,7 @@ class Module_template:
                 "In the First battle of Panipat, Babur used a war tactic called as \"Tulughma\", Tulughma meant "
                 "dividing the whole army into various units, viz. the Left, the Right and the Centre. Babur has a "
                 "total of {} thousand men how many men does he need in each position according to tulughma",
-                "What is the product of {} and {}",
-                "Sir Newton sits under the tree every evening. Everytime atleast {} falls on his head. How many "
-                "apples fall on his head if he sits for {} days",
-                "Shree Aryabhatta wants your help. He forgot how to take product of two numbers. What is the product "
-                "of {} and {} "
+                "Divide {} and {}"
                 ]
             self.ques = random.choice(ques_format_list).format(a, b)
             self.ans = a / b
@@ -134,14 +128,7 @@ class Module_template:
                 a, b = self.get_two_random_number(2, 99)
 
             ques_format_list = [
-                "In the First battle of Panipat, Babur used a war tactic called as \"Tulughma\", Tulughma meant "
-                "dividing the whole army into various units, viz. the Left, the Right and the Centre. Babur has a "
-                "total of {} thousand men how many men does he need in each position according to tulughma",
                 "What is the product of {} and {}",
-                "Sir Newton sits under the tree every evening. Everytime atleast {} falls on his head. How many "
-                "apples fall on his head if he sits for {} days",
-                "Shree Aryabhatta wants your help. He forgot how to take product of two numbers. What is the product "
-                "of {} and {} "
                 ]
             self.ques = random.choice(ques_format_list).format(a,b)
             self.ans = a * b
@@ -158,30 +145,20 @@ class Module_template:
                 "total of {} thousand men how many men does he need in each position according to tulughma",
                 "What is the product of {} and {}",
                 "Sir Newton sits under the tree every evening. Everytime atleast {} falls on his head. How many "
-                "apples fall on his head if he sits for {} days",
-                "Shree Aryabhatta wants your help. He forgot how to take product of two numbers. What is the product "
-                "of {} and {} "
+                "apples fall on his head if he sits for {} days"
             ]
             self.ques = random.choice(ques_format_list).format(a, b)
             self.ans = a * b
             # elif self.mode == "add" :
         elif self.mode == "sqr5":
             # a should always be bigger
-            a, b = self.get_two_random_number(2, 99)
-            while a < b:
-                a, b = self.get_two_random_number(2, 99)
+            a = self.get_two_random_number(5, 95,5)
+
 
             ques_format_list = [
-                "In the First battle of Panipat, Babur used a war tactic called as \"Tulughma\", Tulughma meant "
-                "dividing the whole army into various units, viz. the Left, the Right and the Centre. Babur has a "
-                "total of {} thousand men how many men does he need in each position according to tulughma",
-                "What is the product of {} and {}",
-                "Sir Newton sits under the tree every evening. Everytime atleast {} falls on his head. How many "
-                "apples fall on his head if he sits for {} days",
-                "Shree Aryabhatta wants your help. He forgot how to take product of two numbers. What is the product "
-                "of {} and {} "
+                "find {}"
             ]
-            self.ques = random.choice(ques_format_list).format(a, b)
+            self.ques = random.choice(ques_format_list).format(a)
             self.ans = a**5
             # elif self.mode == "add" :
 
@@ -253,6 +230,17 @@ def Practice_window():
     window = gui.Window("Ganitansh-GUI", layout, finalize=True)
     return window
 
+def games_window():
+    layout = [
+        [gui.Text("\t\tGames Math Menu", font=("SanFrancisco", 12, "bold"), text_color="cyan",
+                  justification="center")],
+        [gui.Button("Story mode", font=("SanFrancisco", 12, "bold"))],
+        [gui.Button("snake", font=("SanFrancisco", 12, "bold"))],
+        [gui.Button("tic tac toe", font=("SanFrancisco", 12, "bold"))],
+        [gui.Button("Go Back", font=("SanFrancisco", 12, "bold"))]
+    ]
+    window = gui.Window("Ganitansh-GUI", layout, finalize=True)
+    return window
 
 def vlc_setup(video):
     inst = vlc.Instance()
@@ -296,9 +284,17 @@ while True:
         username = values[1]
         window.close()
         window = MainMenu_window()
+    elif event == "Games" :
+        window = games_window()
     elif event == "Practice":
         window.close()
         window = Practice_window()
+    # elif event == "Story mode":
+    #     story.main()
+    # elif event == "snake":
+    #     snake.main()
+    # elif event == "tic tac toe" :
+    #     TicTacToe.main()
     elif event == "Finding Square of a double digit number ending with 5":
         window.close()
         module = Module_template("sqr5")

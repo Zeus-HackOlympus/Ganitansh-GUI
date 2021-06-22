@@ -119,19 +119,21 @@ class BOARD:
 
 
     # def check if valid x and y input or not
-board = BOARD()
+def main():
+    board = BOARD()
 
-while True :
-    event,value = board.window.read()
-    print(event,value)
-    board.get_values()
-    board.check_values()
-    board.update()
-    if (board.verified):
+    while True:
+        event, value = board.window.read()
+        print(event, value)
+        board.get_values()
         board.check_values()
-    if (board.winner) : gui.popup("Player wins")
-    if event in (gui.WIN_CLOSED,gui.WIN_CLOSED,"Exit"):
-        break
+        board.update()
+        if (board.verified):
+            board.check_values()
+        if (board.winner): gui.popup("Player wins")
+        if event in (gui.WIN_CLOSED, gui.WIN_CLOSED, "Exit"):
+            break
 
-
-board.window.close()
+    board.window.close()
+if __name__ == '__main__':
+    main()
