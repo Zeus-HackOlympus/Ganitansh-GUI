@@ -3,10 +3,7 @@ import random
 import PySimpleGUI as gui
 import vlc
 from sys import platform as PLATFORM
-import  story
-import  snake
-import  TicTacToe
-
+import os
 #   _____ _
 #  /__   \ |__   ___ _ __ ___   ___
 #    / /\/ '_ \ / _ \ '_ ` _ \ / _ \
@@ -152,14 +149,14 @@ class Module_template:
             # elif self.mode == "add" :
         elif self.mode == "sqr5":
             # a should always be bigger
-            a = self.get_two_random_number(5, 95,5)
-
+            num = [i for i in range(100) if i % 5 == 0 and i % 10 != 0]
+            a = random.choice(num)
 
             ques_format_list = [
-                "find {}"
+                "square of {}"
             ]
             self.ques = random.choice(ques_format_list).format(a)
-            self.ans = a**5
+            self.ans = a**2
             # elif self.mode == "add" :
 
     def generate_window(self):
@@ -232,12 +229,10 @@ def Practice_window():
 
 def games_window():
     layout = [
-        [gui.Text("\t\tGames Math Menu", font=("SanFrancisco", 12, "bold"), text_color="cyan",
+        [gui.Text("\tGames Math Menu", font=("SanFrancisco", 12, "bold"), text_color="cyan",
                   justification="center")],
-        [gui.Button("Story mode", font=("SanFrancisco", 12, "bold"))],
-        [gui.Button("snake", font=("SanFrancisco", 12, "bold"))],
-        [gui.Button("tic tac toe", font=("SanFrancisco", 12, "bold"))],
-        [gui.Button("Go Back", font=("SanFrancisco", 12, "bold"))]
+        [gui.Button("Story mode", font=("SanFrancisco", 12, "bold"),size=(24,1))],
+        [gui.Button("snake", font=("SanFrancisco", 12, "bold"),size=(24,1))],
     ]
     window = gui.Window("Ganitansh-GUI", layout, finalize=True)
     return window
@@ -289,59 +284,73 @@ while True:
     elif event == "Practice":
         window.close()
         window = Practice_window()
-    # elif event == "Story mode":
-    #     story.main()
-    # elif event == "snake":
-    #     snake.main()
+    elif event == "Story mode":
+        window.hide()
+        os.system("python3 story.py")
+    elif event == "snake":
+        window.hide()
+        os.system("python3 snake.py")
     # elif event == "tic tac toe" :
     #     TicTacToe.main()
     elif event == "Finding Square of a double digit number ending with 5":
         window.close()
         module = Module_template("sqr5")
         window = module.generate_window()
-        gui.theme("black")
         window['vid'].expand(True, True)
         # Module_template
     elif event == "Division introduction and practice":
         window.close()
         module = Module_template("div")
+        window = module.generate_window()
+        window['vid'].expand(True,True)
         # Module_template
     elif event == "Multiplication introduction":
         window.hide()
         module = Module_template("multi")
+        window = module.generate_window()
+        window['vid'].expand(True, True)
         # Module_template
     elif event == "Double Digit Multiplication practice":
         window.hide()
         module = Module_template("dd")
+        window = module.generate_window()
+        window['vid'].expand(True, True)
         # Module_template
     elif event == "Multiplication of a 2 digit number by 11":
         window.hide()
         module = Module_template("elev")
+        window = module.generate_window()
+        window['vid'].expand(True, True)
         # Module_template
     elif event == "Addition and subtraction introduction and practice":
         window.hide()
         module = Module_template("add")
+        window = module.generate_window()
+        window['vid'].expand(True, True)
         # Module_template
     elif event == "Go Back":
         window.close()
         window = MainMenu_window()
+        window = module.generate_window()
+        window['vid'].expand(True, True)
     elif event == "Enter" :
         if isinstance(module,Module_template):
             if str(module.ans) == values['ans']:
                 print(module.ans)
                 module.window['wrong'].update("Correct answer",text_color="green")
                 score+=1
+                window['score'].update("score: " + score)
             else:
                 module.window['wrong'].update("Incorrect answer",text_color="red")
                 print(module.ans)
     elif event == "Play" :
         if isinstance(module,Module_template):
-            if module.mode == "add" : vlc_setup(Videos['dd'])
-            elif module.mode == "dd": vlc_setup(Videos['add'])
-            elif module.mode == "div" : vlc_setup(Videos['dd'])
-            elif module.mode == "elev" : vlc_setup(Videos['dd'])
-            elif module.mode == "multi" : vlc_setup(Videos['dd'])
-            elif module.mode == "sqr5" : vlc_setup(Videos['dd'])
+            if module.mode == "add" : vlc_setup(Videos['add'])
+            elif module.mode == "dd": vlc_setup(Videos['dd'])
+            elif module.mode == "div" : vlc_setup(Videos['div'])
+            elif module.mode == "elev" : vlc_setup(Videos['elev'])
+            elif module.mode == "multi" : vlc_setup(Videos['multi'])
+            elif module.mode == "sqr5" : vlc_setup(Videos['sqr5'])
     elif event == "About ...":
         gui.popup_ok(about_us)
 
