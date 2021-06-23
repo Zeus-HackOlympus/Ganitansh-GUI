@@ -1,0 +1,61 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="41">
+            <item index="0" class="java.lang.String" itemvalue="traitlets" />
+            <item index="1" class="java.lang.String" itemvalue="decorator" />
+            <item index="2" class="java.lang.String" itemvalue="ptyprocess" />
+            <item index="3" class="java.lang.String" itemvalue="pickleshare" />
+            <item index="4" class="java.lang.String" itemvalue="python-dateutil" />
+            <item index="5" class="java.lang.String" itemvalue="PyInputPlus" />
+            <item index="6" class="java.lang.String" itemvalue="pyttsx3" />
+            <item index="7" class="java.lang.String" itemvalue="wcwidth" />
+            <item index="8" class="java.lang.String" itemvalue="PyMsgBox" />
+            <item index="9" class="java.lang.String" itemvalue="setuptools" />
+            <item index="10" class="java.lang.String" itemvalue="cycler" />
+            <item index="11" class="java.lang.String" itemvalue="numpy" />
+            <item index="12" class="java.lang.String" itemvalue="IPython" />
+            <item index="13" class="java.lang.String" itemvalue="speechrecognition" />
+            <item index="14" class="java.lang.String" itemvalue="Pygments" />
+            <item index="15" class="java.lang.String" itemvalue="prompt-toolkit" />
+            <item index="16" class="java.lang.String" itemvalue="pyparsing" />
+            <item index="17" class="java.lang.String" itemvalue="sympy" />
+            <item index="18" class="java.lang.String" itemvalue="PyScreeze" />
+            <item index="19" class="java.lang.String" itemvalue="pywin32" />
+            <item index="20" class="java.lang.String" itemvalue="PyAutoGUI" />
+            <item index="21" class="java.lang.String" itemvalue="pyperclip" />
+            <item index="22" class="java.lang.String" itemvalue="six" />
+            <item index="23" class="java.lang.String" itemvalue="intersect" />
+            <item index="24" class="java.lang.String" itemvalue="opencv-python" />
+            <item index="25" class="java.lang.String" itemvalue="parso" />
+            <item index="26" class="java.lang.String" itemvalue="kiwisolver" />
+            <item index="27" class="java.lang.String" itemvalue="pexpect" />
+            <item index="28" class="java.lang.String" itemvalue="pyaudio" />
+            <item index="29" class="java.lang.String" itemvalue="python3-xlib" />
+            <item index="30" class="java.lang.String" itemvalue="PyTweening" />
+            <item index="31" class="java.lang.String" itemvalue="jedi" />
+            <item index="32" class="java.lang.String" itemvalue="MouseInfo" />
+            <item index="33" class="java.lang.String" itemvalue="backcall" />
+            <item index="34" class="java.lang.String" itemvalue="colorama" />
+            <item index="35" class="java.lang.String" itemvalue="mpmath" />
+            <item index="36" class="java.lang.String" itemvalue="matplotlib" />
+            <item index="37" class="java.lang.String" itemvalue="pyfiglet" />
+            <item index="38" class="java.lang.String" itemvalue="PyGetWindow" />
+            <item index="39" class="java.lang.String" itemvalue="PyRect" />
+            <item index="40" class="java.lang.String" itemvalue="Pillow" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="E303" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
